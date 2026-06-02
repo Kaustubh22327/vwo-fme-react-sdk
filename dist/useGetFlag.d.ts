@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Flag, IVWOContextModel } from 'vwo-fme-node-sdk';
+import { Flag } from './sdk';
 export interface IFlag {
   flag: Flag;
   isReady: boolean;
@@ -25,4 +25,4 @@ export interface IFlag {
  * @param {Object} [context] - Optional user context to use for fetching the flag.
  * @returns {FlagResult} An object containing the flag and a readiness status.
  */
-export declare const useGetFlag: (featureKey: string, context?: IVWOContextModel) => IFlag;
+export declare const useGetFlag: (featureKey: string, context?: any) => IFlag;

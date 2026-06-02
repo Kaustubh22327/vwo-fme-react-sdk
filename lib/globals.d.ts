@@ -13,17 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
- * Hook to get all variables from a flag
- * @param flag - The flag to get the variables from
- * @returns The variables from the flag
+ * Injected by @rollup/plugin-replace at build time.
+ * Value is 'vwo' for the VWO package and 'wingify' for the Wingify package.
+ * Falls back to 'vwo' in non-build environments.
  */
-export declare const useGetFlagVariables: (flag: any) => Array<Record<string, unknown>>;
-/**
- * Hook to get a flag variable
- * @param flag - The flag to get the variable from
- * @param variableKey - The key of the variable to get
- * @param defaultValue - The default value to return if the variable is not found
- * @returns The value of the variable
- */
-export declare const useGetFlagVariable: <T>(flag: any, variableKey: string, defaultValue: T) => T;
+declare const __SDK_BRAND__: string;

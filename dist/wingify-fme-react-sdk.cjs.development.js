@@ -14,11 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useContext, createContext, useState, useMemo, useEffect, useCallback } from 'react';
-import { init } from 'vwo-fme-node-sdk';
-export { Flag, LogLevelEnum, StorageConnector, getUUID, init } from 'vwo-fme-node-sdk';
-import { LogManager } from '@wingify/service-logger';
-import { isFunction, isObject, isString } from '@wingify/util-data-type';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var React = require('react');
+var React__default = _interopDefault(React);
+var wingifyFmeNodeSdk = require('wingify-fme-node-sdk');
+var serviceLogger = require('@wingify/service-logger');
+var utilDataType = require('@wingify/util-data-type');
 
 /**
  * Copyright 2025 Wingify Software Pvt. Ltd.
@@ -46,7 +52,7 @@ let logger = null;
  */
 function initLogger(config) {
   if (!logger) {
-    logger = new LogManager((config == null ? void 0 : config.logger) || {});
+    logger = new serviceLogger.LogManager((config == null ? void 0 : config.logger) || {});
   }
   return logger;
 }
@@ -58,7 +64,7 @@ function initLogger(config) {
  */
 function getLogger() {
   if (!logger) {
-    logger = new LogManager({
+    logger = new serviceLogger.LogManager({
       level: 'error'
     });
   }
@@ -83,14 +89,14 @@ function getLogger() {
 var LogMessageEnum;
 (function (LogMessageEnum) {
   // common messages
-  LogMessageEnum["VWO_CLIENT_MISSING"] = "VWO Client is missing in {hookName} hook. Ensure VWOProvider is correctly initialized.";
+  LogMessageEnum["VWO_CLIENT_MISSING"] = "{brand} Client is missing in {hookName} hook. Ensure VWOProvider is correctly initialized.";
   LogMessageEnum["INVALID_CONTEXT"] = "Invalid user context in {hookName} hook. Ensure a valid userContext is provided.";
   LogMessageEnum["HOOK_ERROR"] = "Error in {hookName} hook: {error}";
   LogMessageEnum["INVALID_HOOK_USAGE"] = "{hookName} must be used within a VWOProvider !!";
   // VWO Provider Messages
-  LogMessageEnum["VWO_PROVIDER_CLIENT_CONFIG_WARNING"] = "VWOProvider Warning: Both `client` and `config` are provided. The `client` prop will take precedence, and the `config` props will be disregarded.";
-  LogMessageEnum["VWO_PROVIDER_CONFIG_REQUIRED"] = "VWOProvider Error: Either `client` or `config` must be provided.";
-  LogMessageEnum["VWO_SDK_INITIALIZATION_FAILED"] = "VWO-SDK Initialization failed: {error}";
+  LogMessageEnum["VWO_PROVIDER_CLIENT_CONFIG_WARNING"] = "{brand}Provider Warning: Both `client` and `config` are provided. The `client` prop will take precedence, and the `config` props will be disregarded.";
+  LogMessageEnum["VWO_PROVIDER_CONFIG_REQUIRED"] = "{brand}Provider Error: Either `client` or `config` must be provided.";
+  LogMessageEnum["VWO_SDK_INITIALIZATION_FAILED"] = "{logPrefix} Initialization failed: {error}";
   // useTrackEvent Messages
   LogMessageEnum["VWO_TRACK_EVENT_NAME_REQUIRED"] = "Event name is required for useTrackEvent hook and it should be a string";
   LogMessageEnum["VWO_TRACK_EVENT_ERROR"] = "Error tracking event - {eventName}: {error}";
@@ -99,7 +105,7 @@ var LogMessageEnum;
   LogMessageEnum["VWO_SET_ATTRIBUTE_ERROR"] = "Error setting attributes: {error}";
   LogMessageEnum["VWO_SET_ATTRIBUTE_SUCCESS"] = "User attributes set: {attributes}";
   // useGetFlag Messages
-  LogMessageEnum["VWO_NOT_READY_IN_USE_GET_FLAG"] = "VWO is not ready in useGetFlag hook";
+  LogMessageEnum["VWO_NOT_READY_IN_USE_GET_FLAG"] = "{brand} is not ready in useGetFlag hook";
   LogMessageEnum["VWO_GET_FLAG_FEATURE_KEY_REQUIRED"] = "Feature key is required for useGetFlag hook";
   LogMessageEnum["VWO_GET_FLAG_ERROR"] = "Error fetching feature flag - {featureKey}: {error}";
   // useGetFlagVariable Messages
@@ -124,6 +130,24 @@ var LogMessageEnum;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+const BRAND_DISPLAY_NAME =  'Wingify' ;
+const LOG_PREFIX =  'Wingify-React-SDK' ;
+
+/**
+ * Copyright 2025 Wingify Software Pvt. Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 const nargs = /\{([0-9a-zA-Z_]+)\}/g;
 /**
  * Constructs a message by replacing placeholders in a template with corresponding values from a data object.
@@ -132,7 +156,12 @@ const nargs = /\{([0-9a-zA-Z_]+)\}/g;
  * @param {Record<string, any>} data - An object containing keys and values used to replace the placeholders in the template.
  * @returns {string} The constructed message with all placeholders replaced by their corresponding values from the data object.
  */
-function buildMessage(template, data = {}) {
+function buildMessage(template = '', data = {}) {
+  const payload = {
+    brand: BRAND_DISPLAY_NAME,
+    logPrefix: LOG_PREFIX,
+    ...data
+  };
   try {
     return template.replace(nargs, (match, key, index) => {
       // Check for escaped placeholders
@@ -140,30 +169,29 @@ function buildMessage(template, data = {}) {
         return key;
       }
       // Retrieve the value from the data object
-      const value = data[key];
+      const value = payload[key];
       // If the key does not exist or the value is null/undefined, return an empty string
       if (value === undefined || value === null) {
         return '';
       }
       // If the value is a function, evaluate it
-      return isFunction(value) ? value() : value;
+      return utilDataType.isFunction(value) ? value() : value;
     });
   } catch (err) {
     return template; // Return the original template in case of an error
   }
 }
 /**
- * Logs an error message using the provided logger after building the message with template data.
- *
- * @param {any} logger - The logger instance used to log the error message.
- * @param {any} obj - An object containing data used to replace placeholders in the message template.
- * @param {string} message - The message template containing placeholders to be replaced with values from the obj parameter.
+ * Logs a hook error message.
+ * @param {LogManager} logger - The logger instance.
+ * @param {Record<string, any>} data - The data object containing error details.
+ * @param {string} template - The message template.
  */
-function logHookError(logger, obj = {}, message) {
-  try {
-    logger.error(buildMessage(message, obj));
-  } catch (error) {
-    console.error(`Error logging hook. Error: ${error}`);
+function logHookError(logger, data, template) {
+  if (logger) {
+    logger.error(buildMessage(template, data));
+  } else {
+    console.error(buildMessage(template, data));
   }
 }
 
@@ -208,7 +236,7 @@ var HookEnum;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const VWOContext = /*#__PURE__*/createContext({
+const VWOContext = /*#__PURE__*/React.createContext({
   vwoClient: null,
   userContext: null,
   setUserContext: undefined,
@@ -219,7 +247,7 @@ const useVWOContext = () => {
   try {
     logger = getLogger();
     // Fetch the context
-    const context = useContext(VWOContext);
+    const context = React.useContext(VWOContext);
     // If the context is not found, throw an error
     if (!context) {
       logger.error(buildMessage(LogMessageEnum.INVALID_HOOK_USAGE, {
@@ -266,13 +294,13 @@ function VWOProvider(props) {
   } = props;
   const client = 'client' in props ? props.client : null;
   const config = 'config' in props ? props.config : null;
-  const [vwoClient, setVwoClient] = useState(client || null);
-  const [context, setContext] = useState(userContext || null);
-  const [isReady, setIsReady] = useState(false);
-  const memoizedConfig = useMemo(() => config || (client == null ? void 0 : client.options), []);
+  const [vwoClient, setVwoClient] = React.useState(client || null);
+  const [context, setContext] = React.useState(userContext || null);
+  const [isReady, setIsReady] = React.useState(false);
+  const memoizedConfig = React.useMemo(() => config || (client == null ? void 0 : client.options), []);
   let logger;
   // Initialize the VWO SDK instance only once when the component mounts or if config is updated
-  useEffect(() => {
+  React.useEffect(() => {
     try {
       logger = initLogger((client == null ? void 0 : client.options) || config);
       if (config && vwoClient) {
@@ -288,7 +316,7 @@ function VWOProvider(props) {
       const initializeVWO = async () => {
         if (!vwoClient && config) {
           // Initialize the VWO SDK instance if vwoClient is not already initialized
-          const instance = await init(config);
+          const instance = await wingifyFmeNodeSdk.init(config);
           setVwoClient(instance);
           setIsReady(true);
         }
@@ -301,7 +329,7 @@ function VWOProvider(props) {
       logHookError(logger, error, LogMessageEnum.VWO_SDK_INITIALIZATION_FAILED);
     }
   }, [memoizedConfig]); // Re-run only when config changes
-  return React.createElement(VWOContext.Provider, {
+  return React__default.createElement(VWOContext.Provider, {
     value: {
       vwoClient,
       userContext: context,
@@ -399,13 +427,13 @@ const useGetFlag = (featureKey, context) => {
     setUserContext,
     isReady
   } = useVWOContext();
-  const [flag, setFlag] = useState(defaultFlagResult.flag);
-  const [isLoading, setIsLoading] = useState(true);
+  const [flag, setFlag] = React.useState(defaultFlagResult.flag);
+  const [isLoading, setIsLoading] = React.useState(true);
   const logger = getLogger();
-  const stableUserContext = useMemo(() => {
+  const stableUserContext = React.useMemo(() => {
     return context || userContext || {};
   }, [JSON.stringify(context || userContext || {})]);
-  const getFlag = useCallback(async () => {
+  const getFlag = React.useCallback(async () => {
     try {
       if (!isReady) {
         logger.error(LogMessageEnum.VWO_NOT_READY_IN_USE_GET_FLAG);
@@ -423,13 +451,13 @@ const useGetFlag = (featureKey, context) => {
       setIsLoading(false);
     }
   }, [featureKey, stableUserContext, isReady]);
-  useEffect(() => {
+  React.useEffect(() => {
     try {
       if (!featureKey) {
         logger.error(LogMessageEnum.VWO_GET_FLAG_FEATURE_KEY_REQUIRED);
         return;
       }
-      if (!isObject(stableUserContext) || !stableUserContext.id) {
+      if (!utilDataType.isObject(stableUserContext) || !stableUserContext.id) {
         logger.error(buildMessage(LogMessageEnum.INVALID_CONTEXT, {
           hookName: HookEnum.VWO_GET_FLAG
         }));
@@ -477,7 +505,7 @@ const useGetFlagVariables = flag => {
   let logger;
   try {
     logger = getLogger();
-    if (!flag || !isObject(flag)) {
+    if (!flag || !utilDataType.isObject(flag)) {
       logger.error(LogMessageEnum.VWO_GET_FLAG_VARIABLES_FLAG_REQUIRED);
       return [];
     }
@@ -500,7 +528,7 @@ const useGetFlagVariable = (flag, variableKey, defaultValue) => {
   let logger;
   try {
     logger = getLogger();
-    if (!flag || !isObject(flag)) {
+    if (!flag || !utilDataType.isObject(flag)) {
       return defaultValue;
     }
     if (!variableKey) {
@@ -570,12 +598,12 @@ const useTrackEvent = () => {
         }));
         return Promise.resolve({});
       }
-      if (!eventName || !isString(eventName)) {
+      if (!eventName || !utilDataType.isString(eventName)) {
         logger.error(LogMessageEnum.VWO_TRACK_EVENT_NAME_REQUIRED);
         return Promise.resolve({});
       }
       // Ensure userContext is valid
-      if (!userContext || !isObject(userContext) || !userContext.id) {
+      if (!userContext || !utilDataType.isObject(userContext) || !userContext.id) {
         logger.error(buildMessage(LogMessageEnum.INVALID_CONTEXT, {
           hookName: HookEnum.VWO_TRACK_EVENT
         }));
@@ -650,13 +678,13 @@ const useSetAttribute = () => {
         }));
         return;
       }
-      if (!userContext || !isObject(userContext) || !userContext.id) {
+      if (!userContext || !utilDataType.isObject(userContext) || !userContext.id) {
         logger.error(buildMessage(LogMessageEnum.INVALID_CONTEXT, {
           hookName: HookEnum.VWO_SET_ATTRIBUTE
         }));
         return;
       }
-      if (!attributeMap || !isObject(attributeMap) || Object.keys(attributeMap).length === 0) {
+      if (!attributeMap || !utilDataType.isObject(attributeMap) || Object.keys(attributeMap).length === 0) {
         logger.error(LogMessageEnum.VWO_SET_ATTRIBUTE_MAP_REQUIRED);
         return;
       }
@@ -676,5 +704,42 @@ const useSetAttribute = () => {
   };
 };
 
-export { VWOProvider, useGetFlag, useGetFlagVariable, useGetFlagVariables, useSetAttribute, useTrackEvent, useVWOClient, useVWOContext };
-//# sourceMappingURL=vwo-fme-react-sdk.esm.js.map
+Object.defineProperty(exports, 'Flag', {
+  enumerable: true,
+  get: function () {
+    return wingifyFmeNodeSdk.Flag;
+  }
+});
+Object.defineProperty(exports, 'LogLevelEnum', {
+  enumerable: true,
+  get: function () {
+    return wingifyFmeNodeSdk.LogLevelEnum;
+  }
+});
+Object.defineProperty(exports, 'StorageConnector', {
+  enumerable: true,
+  get: function () {
+    return wingifyFmeNodeSdk.StorageConnector;
+  }
+});
+Object.defineProperty(exports, 'getUUID', {
+  enumerable: true,
+  get: function () {
+    return wingifyFmeNodeSdk.getUUID;
+  }
+});
+Object.defineProperty(exports, 'init', {
+  enumerable: true,
+  get: function () {
+    return wingifyFmeNodeSdk.init;
+  }
+});
+exports.WingifyProvider = VWOProvider;
+exports.useGetFlag = useGetFlag;
+exports.useGetFlagVariable = useGetFlagVariable;
+exports.useGetFlagVariables = useGetFlagVariables;
+exports.useSetAttribute = useSetAttribute;
+exports.useTrackEvent = useTrackEvent;
+exports.useWingifyClient = useVWOClient;
+exports.useWingifyContext = useVWOContext;
+//# sourceMappingURL=wingify-fme-react-sdk.cjs.development.js.map

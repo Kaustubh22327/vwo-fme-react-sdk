@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import React, { ReactNode } from 'react';
-import { IVWOContextModel, IVWOClient, IVWOOptions } from 'vwo-fme-node-sdk';
+import { IVWOContextModel, IVWOClient, IVWOOptions } from './sdk';
 export interface VWOProviderWithClient {
   client: IVWOClient;
   userContext?: IVWOContextModel;

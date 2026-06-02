@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { IVWOClient } from 'vwo-fme-node-sdk';
+import { IVWOClient } from './sdk';
 import { getLogger } from './services/LoggerService';
 import { useVWOContext } from './VWOContext';
 import { LogMessageEnum } from './enum/LogMessageEnum';

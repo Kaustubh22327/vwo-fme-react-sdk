@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /// <reference types="react" />
-import { IVWOClient, IVWOContextModel } from 'vwo-fme-node-sdk';
+import { IVWOClient, IVWOContextModel } from './sdk';
 interface VWOContextType {
   vwoClient: IVWOClient | null;
   userContext?: IVWOContextModel | null;

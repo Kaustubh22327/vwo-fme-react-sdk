@@ -20,8 +20,8 @@ import { getLogger } from './services/LoggerService';
 import { LogMessageEnum } from './enum/LogMessageEnum';
 import { buildMessage, logHookError } from './utils/LogMessageUtil';
 import { HookEnum } from './enum/HookEnum';
-import { IVWOClient } from 'vwo-fme-node-sdk';
-import { IVWOContextModel } from 'vwo-fme-node-sdk';
+import { IVWOClient } from './sdk';
+import { IVWOContextModel } from './sdk';
 
 /**
  * Interface for the return type of useSetAttribute hook

@@ -20,7 +20,7 @@ import { isObject, isString } from '@wingify/util-data-type';
 import { LogMessageEnum } from './enum/LogMessageEnum';
 import { buildMessage, logHookError } from './utils/LogMessageUtil';
 import { HookEnum } from './enum/HookEnum';
-import { IVWOClient, IVWOContextModel } from 'vwo-fme-node-sdk';
+import { IVWOClient, IVWOContextModel } from './sdk';
 /**
  * Interface for the return type of useTrackEvent hook
  */

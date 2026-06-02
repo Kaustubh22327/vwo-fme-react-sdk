@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { IVWOClient } from 'vwo-fme-node-sdk';
+import { IVWOClient } from './sdk';
 export interface VWOClientResult {
   vwoClient: IVWOClient | null;
   isReady: boolean;

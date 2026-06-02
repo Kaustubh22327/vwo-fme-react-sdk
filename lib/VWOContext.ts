@@ -16,7 +16,7 @@
 
 import { createContext, useContext } from 'react';
 import { getLogger } from './services/LoggerService';
-import { IVWOClient, IVWOContextModel } from 'vwo-fme-node-sdk';
+import { IVWOClient, IVWOContextModel } from './sdk';
 import { LogMessageEnum } from './enum/LogMessageEnum';
 import { buildMessage, logHookError } from './utils/LogMessageUtil';
 import { HookEnum } from './enum/HookEnum';

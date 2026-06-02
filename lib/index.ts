@@ -38,4 +38,4 @@ export {
   LogLevelEnum,
   getUUID,
   ISettingsData,
-} from 'vwo-fme-node-sdk';
+} from './sdk';

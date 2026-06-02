@@ -13,23 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { VWOProvider, IVWOProvider, VWOProviderWithClient, VWOProviderWithConfig } from './VWOProvider';
-export { useVWOClient } from './useVWOClient';
+
+// Components
+export {
+  VWOProvider as WingifyProvider,
+  IVWOProvider as IWingifyProvider,
+  VWOProviderWithClient as WingifyProviderWithClient,
+  VWOProviderWithConfig as WingifyProviderWithConfig,
+} from './VWOProvider';
+
+// Hooks
+export { useVWOClient as useWingifyClient } from './useVWOClient';
 export { useGetFlag, IFlag } from './useGetFlag';
 export { useGetFlagVariable } from './useGetFlagVariable';
 export { useGetFlagVariables } from './useGetFlagVariable';
 export { useTrackEvent, ITrackEvent } from './useTrackEvent';
 export { useSetAttribute, ISetAttribute } from './useSetAttribute';
-export { useVWOContext } from './VWOContext';
-export { VWOClientResult } from './useVWOClient';
+export { useVWOContext as useWingifyContext } from './VWOContext';
+
+// Export init method from wingify-fme-node-sdk
 export {
   init,
-  IVWOContextModel,
-  IVWOClient,
-  IVWOOptions,
+  IWingifyContextModel,
+  IWingifyClient,
+  IWingifyOptions,
   Flag,
   StorageConnector,
   LogLevelEnum,
   getUUID,
   ISettingsData,
-} from './sdk';
+} from 'wingify-fme-node-sdk';
+
+// Wingify-branded result type alias
+export type WingifyClientResult = { vwoClient: import('wingify-fme-node-sdk').IWingifyClient | null; isReady: boolean };
