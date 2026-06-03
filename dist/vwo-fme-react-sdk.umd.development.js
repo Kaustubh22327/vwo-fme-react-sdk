@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('wingify-fme-node-sdk'), require('@wingify/service-logger'), require('@wingify/util-data-type')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'react', 'wingify-fme-node-sdk', '@wingify/service-logger', '@wingify/util-data-type'], factory) :
-  (global = global || self, factory(global['wingify-fme-react-sdk'] = {}, global.React, global.wingifyFmeNodeSdk, global.serviceLogger, global.utilDataType));
-}(this, (function (exports, React, wingifyFmeNodeSdk, serviceLogger, utilDataType) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('vwo-fme-node-sdk'), require('@wingify/service-logger'), require('@wingify/util-data-type')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'react', 'vwo-fme-node-sdk', '@wingify/service-logger', '@wingify/util-data-type'], factory) :
+  (global = global || self, factory(global['vwo-fme-react-sdk'] = {}, global.React, global.vwoFmeNodeSdk, global.serviceLogger, global.utilDataType));
+}(this, (function (exports, React, vwoFmeNodeSdk, serviceLogger, utilDataType) { 'use strict';
 
   var React__default = 'default' in React ? React['default'] : React;
 
   /**
-   * Copyright 2025 Wingify Software Pvt. Ltd.
+   * Copyright 2025-2026 Wingify Software Pvt. Ltd.
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@
   }
 
   /**
-   * Copyright 2025 Wingify Software Pvt. Ltd.
+   * Copyright 2025-2026 Wingify Software Pvt. Ltd.
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -112,7 +112,7 @@
   })(LogMessageEnum || (LogMessageEnum = {}));
 
   /**
-   * Copyright 2025 Wingify Software Pvt. Ltd.
+   * Copyright 2025-2026 Wingify Software Pvt. Ltd.
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -126,11 +126,11 @@
    * See the License for the specific language governing permissions and
    * limitations under the License.
    */
-  const BRAND_DISPLAY_NAME =  'Wingify' ;
-  const LOG_PREFIX =  'Wingify-React-SDK' ;
+  const BRAND_DISPLAY_NAME =  'VWO';
+  const LOG_PREFIX =  'VWO-React-SDK';
 
   /**
-   * Copyright 2025 Wingify Software Pvt. Ltd.
+   * Copyright 2025-2026 Wingify Software Pvt. Ltd.
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -192,7 +192,7 @@
   }
 
   /**
-   * Copyright 2025 Wingify Software Pvt. Ltd.
+   * Copyright 2025-2026 Wingify Software Pvt. Ltd.
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -218,7 +218,7 @@
   })(HookEnum || (HookEnum = {}));
 
   /**
-   * Copyright 2025 Wingify Software Pvt. Ltd.
+   * Copyright 2025-2026 Wingify Software Pvt. Ltd.
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -262,7 +262,7 @@
   };
 
   /**
-   * Copyright 2025 Wingify Software Pvt. Ltd.
+   * Copyright 2025-2026 Wingify Software Pvt. Ltd.
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -312,7 +312,7 @@
         const initializeVWO = async () => {
           if (!vwoClient && config) {
             // Initialize the VWO SDK instance if vwoClient is not already initialized
-            const instance = await wingifyFmeNodeSdk.init(config);
+            const instance = await vwoFmeNodeSdk.init(config);
             setVwoClient(instance);
             setIsReady(true);
           }
@@ -336,7 +336,7 @@
   }
 
   /**
-   * Copyright 2025 Wingify Software Pvt. Ltd.
+   * Copyright 2025-2026 Wingify Software Pvt. Ltd.
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -386,7 +386,7 @@
   };
 
   /**
-   * Copyright 2025 Wingify Software Pvt. Ltd.
+   * Copyright 2025-2026 Wingify Software Pvt. Ltd.
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -478,7 +478,7 @@
   };
 
   /**
-   * Copyright 2025 Wingify Software Pvt. Ltd.
+   * Copyright 2025-2026 Wingify Software Pvt. Ltd.
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -541,7 +541,7 @@
   };
 
   /**
-   * Copyright 2025 Wingify Software Pvt. Ltd.
+   * Copyright 2025-2026 Wingify Software Pvt. Ltd.
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -621,7 +621,7 @@
   };
 
   /**
-   * Copyright 2025 Wingify Software Pvt. Ltd.
+   * Copyright 2025-2026 Wingify Software Pvt. Ltd.
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -703,43 +703,43 @@
   Object.defineProperty(exports, 'Flag', {
     enumerable: true,
     get: function () {
-      return wingifyFmeNodeSdk.Flag;
+      return vwoFmeNodeSdk.Flag;
     }
   });
   Object.defineProperty(exports, 'LogLevelEnum', {
     enumerable: true,
     get: function () {
-      return wingifyFmeNodeSdk.LogLevelEnum;
+      return vwoFmeNodeSdk.LogLevelEnum;
     }
   });
   Object.defineProperty(exports, 'StorageConnector', {
     enumerable: true,
     get: function () {
-      return wingifyFmeNodeSdk.StorageConnector;
+      return vwoFmeNodeSdk.StorageConnector;
     }
   });
   Object.defineProperty(exports, 'getUUID', {
     enumerable: true,
     get: function () {
-      return wingifyFmeNodeSdk.getUUID;
+      return vwoFmeNodeSdk.getUUID;
     }
   });
   Object.defineProperty(exports, 'init', {
     enumerable: true,
     get: function () {
-      return wingifyFmeNodeSdk.init;
+      return vwoFmeNodeSdk.init;
     }
   });
-  exports.WingifyProvider = VWOProvider;
+  exports.VWOProvider = VWOProvider;
   exports.useGetFlag = useGetFlag;
   exports.useGetFlagVariable = useGetFlagVariable;
   exports.useGetFlagVariables = useGetFlagVariables;
   exports.useSetAttribute = useSetAttribute;
   exports.useTrackEvent = useTrackEvent;
-  exports.useWingifyClient = useVWOClient;
-  exports.useWingifyContext = useVWOContext;
+  exports.useVWOClient = useVWOClient;
+  exports.useVWOContext = useVWOContext;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=wingify-fme-react-sdk.umd.development.js.map
+//# sourceMappingURL=vwo-fme-react-sdk.umd.development.js.map

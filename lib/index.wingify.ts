@@ -14,13 +14,29 @@
  * limitations under the License.
  */
 
-// Components
-export {
-  VWOProvider as WingifyProvider,
-  IVWOProvider as IWingifyProvider,
-  VWOProviderWithClient as WingifyProviderWithClient,
-  VWOProviderWithConfig as WingifyProviderWithConfig,
-} from './VWOProvider';
+import React, { ReactNode } from 'react';
+import { VWOProvider } from './VWOProvider';
+import { IWingifyClient, IWingifyContextModel, IWingifyOptions } from 'wingify-fme-node-sdk';
+
+export interface WingifyProviderWithClient {
+  client: IWingifyClient;
+  userContext?: IWingifyContextModel;
+  children: ReactNode;
+  fallbackComponent?: ReactNode;
+}
+
+export interface WingifyProviderWithConfig {
+  config: IWingifyOptions;
+  userContext?: IWingifyContextModel;
+  children: ReactNode;
+  fallbackComponent?: ReactNode;
+}
+
+export type IWingifyProvider = WingifyProviderWithClient | WingifyProviderWithConfig;
+
+export function WingifyProvider(props: IWingifyProvider): React.ReactElement {
+  return React.createElement(VWOProvider, props as any);
+}
 
 // Hooks
 export { useVWOClient as useWingifyClient } from './useVWOClient';

@@ -1,5 +1,5 @@
 /**
- * Copyright 2025 Wingify Software Pvt. Ltd.
+ * Copyright 2025-2026 Wingify Software Pvt. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Flag } from './sdk';
 /**
  * Hook to get all variables from a flag
  * @param flag - The flag to get the variables from
  * @returns The variables from the flag
  */
-export declare const useGetFlagVariables: (flag: any) => Array<Record<string, unknown>>;
+export declare const useGetFlagVariables: (flag: Flag) => Array<Record<string, unknown>>;
 /**
  * Hook to get a flag variable
  * @param flag - The flag to get the variable from
@@ -26,4 +27,4 @@ export declare const useGetFlagVariables: (flag: any) => Array<Record<string, un
  * @param defaultValue - The default value to return if the variable is not found
  * @returns The value of the variable
  */
-export declare const useGetFlagVariable: <T>(flag: any, variableKey: string, defaultValue: T) => T;
+export declare const useGetFlagVariable: <T>(flag: Flag, variableKey: string, defaultValue: T) => T;

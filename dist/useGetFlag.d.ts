@@ -1,5 +1,5 @@
 /**
- * Copyright 2025 Wingify Software Pvt. Ltd.
+ * Copyright 2025-2026 Wingify Software Pvt. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Flag } from './sdk';
+import { Flag, IVWOContextModel } from './sdk';
 export interface IFlag {
   flag: Flag;
   isReady: boolean;
@@ -25,4 +25,4 @@ export interface IFlag {
  * @param {Object} [context] - Optional user context to use for fetching the flag.
  * @returns {FlagResult} An object containing the flag and a readiness status.
  */
-export declare const useGetFlag: (featureKey: string, context?: any) => IFlag;
+export declare const useGetFlag: (featureKey: string, context?: IVWOContextModel) => IFlag;

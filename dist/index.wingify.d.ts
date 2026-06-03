@@ -1,5 +1,5 @@
 /**
- * Copyright 2025 Wingify Software Pvt. Ltd.
+ * Copyright 2025-2026 Wingify Software Pvt. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export {
-  VWOProvider as WingifyProvider,
-  IVWOProvider as IWingifyProvider,
-  VWOProviderWithClient as WingifyProviderWithClient,
-  VWOProviderWithConfig as WingifyProviderWithConfig,
-} from './VWOProvider';
+import React, { ReactNode } from 'react';
+import { IWingifyClient, IWingifyContextModel, IWingifyOptions } from 'wingify-fme-node-sdk';
+export interface WingifyProviderWithClient {
+  client: IWingifyClient;
+  userContext?: IWingifyContextModel;
+  children: ReactNode;
+  fallbackComponent?: ReactNode;
+}
+export interface WingifyProviderWithConfig {
+  config: IWingifyOptions;
+  userContext?: IWingifyContextModel;
+  children: ReactNode;
+  fallbackComponent?: ReactNode;
+}
+export declare type IWingifyProvider = WingifyProviderWithClient | WingifyProviderWithConfig;
+export declare function WingifyProvider(props: IWingifyProvider): React.ReactElement;
 export { useVWOClient as useWingifyClient } from './useVWOClient';
 export { useGetFlag, IFlag } from './useGetFlag';
 export { useGetFlagVariable } from './useGetFlagVariable';
