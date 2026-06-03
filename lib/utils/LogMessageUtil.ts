@@ -1,5 +1,5 @@
 /**
- * Copyright 2025 Wingify Software Pvt. Ltd.
+ * Copyright 2025-2026 Wingify Software Pvt. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { isFunction } from '@wingify/util-data-type';
-import { BRAND_DISPLAY_NAME, LOG_PREFIX } from '../constants/Brand';
+import { BRAND_DISPLAY_NAME, LOG_PREFIX } from '../constants/Constants';
 import { LogManager } from '@wingify/service-logger';
 
 const nargs = /\{([0-9a-zA-Z_]+)\}/g;
