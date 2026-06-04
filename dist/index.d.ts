@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { VWOProvider, IVWOProvider, VWOProviderWithClient, VWOProviderWithConfig } from './VWOProvider';
+export { VWOProvider } from './VWOProvider';
+export type { IVWOProvider, VWOProviderWithClient, VWOProviderWithConfig } from './VWOProvider';
 export { useVWOClient } from './useVWOClient';
-export { useGetFlag, IFlag } from './useGetFlag';
+export { useGetFlag } from './useGetFlag';
+export type { IFlag } from './useGetFlag';
 export { useGetFlagVariable } from './useGetFlagVariable';
 export { useGetFlagVariables } from './useGetFlagVariable';
-export { useTrackEvent, ITrackEvent } from './useTrackEvent';
-export { useSetAttribute, ISetAttribute } from './useSetAttribute';
+export { useTrackEvent } from './useTrackEvent';
+export type { ITrackEvent } from './useTrackEvent';
+export { useSetAttribute } from './useSetAttribute';
+export type { ISetAttribute } from './useSetAttribute';
 export { useVWOContext } from './VWOContext';
-export { VWOClientResult } from './useVWOClient';
+export type { VWOClientResult } from './useVWOClient';
 export {
   init,
   IVWOContextModel,

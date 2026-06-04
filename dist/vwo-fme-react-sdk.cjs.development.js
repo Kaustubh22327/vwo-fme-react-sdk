@@ -329,7 +329,7 @@ function VWOProvider(props) {
       logHookError(logger, error, LogMessageEnum.VWO_SDK_INITIALIZATION_FAILED);
     }
   }, [memoizedConfig]); // Re-run only when config changes
-  return React__default.createElement(VWOContext.Provider, {
+  return /*#__PURE__*/React__default.createElement(VWOContext.Provider, {
     value: {
       vwoClient,
       userContext: context,

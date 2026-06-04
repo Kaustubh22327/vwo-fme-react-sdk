@@ -40,11 +40,14 @@ export function WingifyProvider(props: IWingifyProvider): React.ReactElement {
 
 // Hooks
 export { useVWOClient as useWingifyClient } from './useVWOClient';
-export { useGetFlag, IFlag } from './useGetFlag';
+export { useGetFlag } from './useGetFlag';
+export type { IFlag } from './useGetFlag';
 export { useGetFlagVariable } from './useGetFlagVariable';
 export { useGetFlagVariables } from './useGetFlagVariable';
-export { useTrackEvent, ITrackEvent } from './useTrackEvent';
-export { useSetAttribute, ISetAttribute } from './useSetAttribute';
+export { useTrackEvent } from './useTrackEvent';
+export type { ITrackEvent } from './useTrackEvent';
+export { useSetAttribute } from './useSetAttribute';
+export type { ISetAttribute } from './useSetAttribute';
 export { useVWOContext as useWingifyContext } from './VWOContext';
 
 // Export init method from wingify-fme-node-sdk
