@@ -46,7 +46,7 @@ jobs:
           fi
       - name: Install dependencies
         run: |
-          yarn add react@${{ matrix.react_version }} react-dom@${{ matrix.react_version }}
+          yarn add react@${{ matrix.react_version }} react-dom@${{ matrix.react_version }} react-test-renderer@${{ matrix.react_version }}
 
           # Use compatible version of @testing-library/react for React < 18
           if [[ "${{ matrix.react_version }}" =~ ^16.* || "${{ matrix.react_version }}" =~ ^17.* ]]; then
