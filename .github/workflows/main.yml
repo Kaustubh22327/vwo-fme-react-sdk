@@ -118,10 +118,7 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
-        run: |
-          yarn install --frozen-lockfile
-          # peerDependency — needed to compile JSX; not a direct dep on the Wingify package.json
-          npm install --no-save --no-package-lock react@17.0.2 react-dom@17.0.2
+        run: yarn install --frozen-lockfile
 
       - name: Run release script
         env:
